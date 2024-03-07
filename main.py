@@ -22,7 +22,7 @@ time: float = 0.0             # s
 kokePlateEffekt: float = 1.5  # kW
 # Muligheter for virkingsgrader for kokeplaten og kasserollen.
 # Muligheter også for dynamisk varmetap: kJ varmetap som funksjon av temperaturen til kasserollen.
-# Total varmetap i kJ blir: 4.1813 * 1.5 * (siste simulerte vanntemperaturen med ingen tap av varmeenergi) - 4.1813 * 1.5 * (siste vanntemperaturen fra datafil.txt)
+# Total varmetap i kJ blir: 4.1813 * 1.5 * (siste simulerte vanntemperaturen med ingen tap av varmeenergi - siste vanntemperaturen fra datafil.txt)
 
 
 # Main simulation loop
