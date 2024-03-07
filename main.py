@@ -18,9 +18,9 @@ kettle: Heatable = Heatable(0.964, 20.5, HeatCapacities.Aluminium)
 simulationTemperatureData: list = []
 simulationTimeData: list = []
 
-time: float = 0.0                   # s
-kokePlateEffekt: float = 1.5        # kJ / s
-varmeTap: float = -1.0422          # kJ / s
+time: float = 0.0             # s
+kokePlateEffekt: float = 1.5  # kJ / s
+varmeTap: float = -1.0422     # kJ / s
 
 
 # Main simulation loop
