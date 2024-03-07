@@ -1,4 +1,4 @@
-# mV = 1.50kg  (vann)
-# mK = 0.964kg (aluminium)
-# p  = 1500W
-# t  = 240s
+# massen til Vann        = 1.50kg
+# massen til Kasserollen = 0.964kg (aluminium)
+# effekten               = 1500W
+# tid                    = 240s
