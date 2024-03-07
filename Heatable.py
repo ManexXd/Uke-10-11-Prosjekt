@@ -33,6 +33,8 @@ class Heatable:
 
         if temperatureDifference > 0:
             heatEnergyToTransfer: float = self.CalculateHeatEnergy(temperatureDifference)
+            heatCapacityRatio: float = 1 + (other.HeatCapacity * other.Mass) / (self.HeatCapacity * self.Mass)
+            heatTransferred: float = heatEnergyToTransfer - heatEnergyToTransfer / heatCapacityRatio
 
-            self.Temperature -= temperatureDifference  # Vi tar bort akkurat hvor mye temperatur verdt av energi vi skal overføre til det andre systemet
-            other.AddHeatEnergy(heatEnergyToTransfer)  # Perfekt umiddelbar varmeenergi overføring er antatt her
+            self.Temperature -= self.CalculateDeltaK(heatTransferred)    # Vi tar bort mengden varme som vi kan ta bort før en av de ulike systemene får større eller mindre varme enn den andre
+            other.AddHeatEnergy(heatTransferred)                         # Perfekt umiddelbar varmeenergi overføring antatt her!
