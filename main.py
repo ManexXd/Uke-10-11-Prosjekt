@@ -20,8 +20,7 @@ simulationTimeData: list = []
 
 time: float = 0.0             # s
 kokePlateEffekt: float = 1.5  # kW
-# Muligheter for en prosent for kasserollen som skal bli brukt for å
-# begrense hvor mye varme energi som kan bli overført i én iterasjon til vannet.
+# Muligheter for virkingsgrader for kokeplaten og kasserollen.
 # Muligheter også for dynamisk varmetap: kJ varmetap som funksjon av temperaturen til kasserollen.
 
 
