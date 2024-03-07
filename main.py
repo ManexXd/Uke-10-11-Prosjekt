@@ -19,22 +19,20 @@ simulationTemperatureData: list = []
 simulationTimeData: list = []
 
 time: float = 0.0             # s
-kokePlateEffekt: float = 1.5  # kJ / s
-varmeTap: float = -1.0422     # kJ / s
+kokePlateEffekt: float = 1.5  # kW
 
 
 # Main simulation loop
 print(water.Temperature, kettle.Temperature)
 
 while time < SIMULATION_ENDTIME:
-    kettle.AddHeatEnergy(kokePlateEffekt * SIMULATION_DELTATIME)
-    kettle.AddHeatEnergy(varmeTap * SIMULATION_DELTATIME)
-    kettle.TransferHeatEnergy(water)
+    kettle.AddHeatEnergy(kokePlateEffekt * SIMULATION_DELTATIME)  # Overføring av varmeenergi fra kokeplaten til kasserollen (kJ / s * s = kJ)
+    kettle.TransferHeatEnergy(water)                              # Overføring av varmeenergi fra kasserollen over til vannet
 
-    simulationTemperatureData.append(water.Temperature)
-    simulationTimeData.append(time)
+    simulationTemperatureData.append(water.Temperature)           # Legger til gradvis alle kalkulerte vanntemperaturer til simulasjons temperatur listen
+    simulationTimeData.append(time)                               # Legger til gradvis alle simulasjons tidspunktene til simulasjons tid listen
 
-    time += SIMULATION_DELTATIME
+    time += SIMULATION_DELTATIME                                  # Tid inkrementering etter delta tid
 
 print(water.Temperature, kettle.Temperature)
 
