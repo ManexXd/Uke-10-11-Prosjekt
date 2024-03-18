@@ -32,7 +32,7 @@ def Warmetap(t: float) -> float:
 # Main simulation loop
 while time < SIMULATION_ENDTIME:
     kettle.AddHeatEnergy((kokePlateEffekt - Warmetap(time)) * SIMULATION_DELTATIME)  # Overføring av varmeenergi fra kokeplaten til kasserollen (kJ / s * s = kJ)
-    kettle.TransferHeatEnergy(water, 1.0)                          # Overføring av varmeenergi fra kasserollen over til vannet
+    kettle.TransferHeatEnergy(water)                          # Overføring av varmeenergi fra kasserollen over til vannet
 
     simulationTemperatureData.append(water.Temperature)           # Legger til gradvis alle kalkulerte vanntemperaturer til simulasjons temperatur listen
     simulationTimeData.append(time)                               # Legger til gradvis alle simulasjons tidspunktene til simulasjons tid listen
