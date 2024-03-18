@@ -44,6 +44,7 @@ while time < SIMULATION_ENDTIME:
 
 
 # Plotting
+pyplot.gcf().canvas.manager.set_window_title("Grafer")
 pyplot.subplot(1, 3, 1)
 pyplot.plot(realTimeData, realTemperatureData)
 pyplot.xlabel("Tid (s)")
