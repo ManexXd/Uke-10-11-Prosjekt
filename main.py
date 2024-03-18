@@ -18,26 +18,29 @@ kettle: Heatable = Heatable(0.964, 20.5, HeatCapacities.Aluminium)
 simulationTemperatureData: list = []
 simulationTimeData: list = []
 
-time: float = 0.0             # s
-kokePlateEffekt: float = 1.5  # kW
-# Muligheter for virkingsgrader for kokeplaten og kasserollen.
-# Muligheter også for dynamisk varmetap: kJ varmetap som funksjon av temperaturen til kasserollen.
-# Total vann varmetap i kJ blir: 4.1813 * 1.5 * (siste simulerte vanntemperaturen med ingen tap av varmeenergi - siste vanntemperaturen fra datafil.txt)
+time: float = 0.0                # s
+kokePlateEffekt: float = 1.500   # kW
+# Total varmetap: (4.1813 * 1.50 * (70.94377914704616-20.5)) / 0.87883572394 - (4.1813 * 1.50 * (35.9-20.5)) / 0.87883572394 = 250kJ
+# Prosent varmeenergi fra kokeplate som må gå bort: 250kJ/360kJ = 0.694
+
+
+# Derivert regresjonsfunksjon fra et regneark i geogebra. X = tid & Y = deltaEnergiSimulasjon - deltaEnergiForsøk
+def Warmetap(t: float) -> float:
+    return 1/5000000000000 * (-22358711674*t + 7873113785579)
 
 
 # Main simulation loop
-print(water.Temperature, kettle.Temperature)
-
 while time < SIMULATION_ENDTIME:
-    kettle.AddHeatEnergy(kokePlateEffekt * SIMULATION_DELTATIME)  # Overføring av varmeenergi fra kokeplaten til kasserollen (kJ / s * s = kJ)
-    kettle.TransferHeatEnergy(water)                              # Overføring av varmeenergi fra kasserollen over til vannet
+    kettle.AddHeatEnergy((kokePlateEffekt - Warmetap(time)) * SIMULATION_DELTATIME)  # Overføring av varmeenergi fra kokeplaten til kasserollen (kJ / s * s = kJ)
+    kettle.TransferHeatEnergy(water, 1.0)                          # Overføring av varmeenergi fra kasserollen over til vannet
 
     simulationTemperatureData.append(water.Temperature)           # Legger til gradvis alle kalkulerte vanntemperaturer til simulasjons temperatur listen
     simulationTimeData.append(time)                               # Legger til gradvis alle simulasjons tidspunktene til simulasjons tid listen
 
     time += SIMULATION_DELTATIME                                  # Tid inkrementering etter delta tid
 
-print(water.Temperature, kettle.Temperature)
+
+# print(realTemperatureData[int(SIMULATION_ENDTIME*2)-1], (HeatCapacities.Water * water.Mass * (water.Temperature - 20.5)) / 0.87883572394 - (HeatCapacities.Water * water.Mass * (realTemperatureData[int(SIMULATION_ENDTIME*2)-1] - 20.5)) / 0.87883572394)
 
 
 # Plotting
@@ -45,12 +48,20 @@ pyplot.subplot(1, 3, 1)
 pyplot.plot(realTimeData, realTemperatureData)
 pyplot.xlabel("Tid (s)")
 pyplot.ylabel("Temperatur (°C)")
-pyplot.title("Ekte temperatur til vann etter tid")
+pyplot.title("Forsøk vann temperatur")
 
-pyplot.subplot(1, 3, 3)
+pyplot.subplot(1, 3, 2)
 pyplot.plot(simulationTimeData, simulationTemperatureData)
 pyplot.xlabel("Tid (s)")
 pyplot.ylabel("Temperatur (°C)")
-pyplot.title("Simulasjons temperatur til vann etter tid")
+pyplot.title("Simulasjon vann temperatur")
+
+pyplot.subplot(1, 3, 3)
+pyplot.plot(simulationTimeData, simulationTemperatureData, color="Blue")
+pyplot.plot(realTimeData, realTemperatureData, color="Red")
+pyplot.legend(["Blå: Simulasjon", "Rød: Forsøk"]);
+pyplot.xlabel("Tid (s)")
+pyplot.ylabel("Temperatur (°C)")
+pyplot.title("Simulasjons & Forsøk vann temperatur")
 
 pyplot.show()
