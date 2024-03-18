@@ -28,11 +28,11 @@ class Heatable:
     def AddHeatEnergy(self, heatEnergy: float) -> None:
         self.Temperature += self.CalculateDeltaK(heatEnergy)
 
-    def TransferHeatEnergy(self, other: Heatable, virkingsGrad: float) -> None:
+    def TransferHeatEnergy(self, other: Heatable) -> None:
         temperatureDifference: float = self.Temperature - other.Temperature  # Sjekker etter definisjonen av varme (Q) om vi kan overføre varmeenergi til "other" systemet
 
         if temperatureDifference > 0:
-            heatEnergyToTransfer: float = self.CalculateHeatEnergy(temperatureDifference) * virkingsGrad
+            heatEnergyToTransfer: float = self.CalculateHeatEnergy(temperatureDifference)
             heatCapacityRatio: float = 1 + (other.HeatCapacity * other.Mass) / (self.HeatCapacity * self.Mass)
             heatTransferred: float = heatEnergyToTransfer - heatEnergyToTransfer / heatCapacityRatio
 
