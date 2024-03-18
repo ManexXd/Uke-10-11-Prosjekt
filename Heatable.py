@@ -1,9 +1,6 @@
 from __future__ import annotations
 
 
-HEAT_CELSIUS2KELVIN: float = 273.15
-
-
 class HeatCapacities:
     Water: float = 4.1813
     Aluminium: float = 0.897
